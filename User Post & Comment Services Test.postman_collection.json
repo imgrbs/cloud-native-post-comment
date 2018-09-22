@@ -1,0 +1,526 @@
+{
+	"info": {
+		"_postman_id": "d24dfe94-0e32-43de-a4dd-2f8a76a69358",
+		"name": "User Post & Comment Services Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create POST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5b8c891-8338-4d38-a2bd-1696eb3db6d3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Create Post\", function () {",
+							"    var response = pm.response;",
+							"    var newPost = response.json()",
+							"    delete newPost.id",
+							"    delete newPost.createdAt",
+							"    pm.expect(newPost).to.eql({",
+							"        title: \"Helloworld\",",
+							"        description: \"WOW\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Helloworld\",\n\t\"description\": \"WOW\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create COMMENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5df79b3-4916-459e-a665-de5f0f27a661",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Create Comment with Correct Post Id\", function () {",
+							"    var response = pm.response;",
+							"    var newComment = response.json()",
+							"    delete newComment.id",
+							"    delete newComment.createdAt",
+							"    pm.expect(newComment).to.eql({",
+							"        comment: \"HI\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\": \"HI\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/posts/1/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create USER",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5084e705-4530-4d4a-9b27-5e67a71219b2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Create User\", function () {",
+							"    var response = pm.response;",
+							"    var user = response.json()",
+							"    delete user.id",
+							"    pm.expect(user).to.eql({",
+							"        firstName: \"Keerati\",",
+							"        lastName: \"Jearjindarat\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Keerati\",\n\t\"lastName\": \"Jearjindarat\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one user at /user/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73a72332-9a41-40c5-9cbd-1b592283390c",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"pm.test(\"get one user with id 1 must have firstName equal Keerati and lastName equal Jearjindarat\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var person = jsonData",
+							"    pm.expect(person.id).to.eql(1);",
+							"    pm.expect(person.firstName).to.eql(\"Keerati\");",
+							"    pm.expect(person.lastName).to.eql(\"Jearjindarat\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/user/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60e94667-1b4b-404e-ac1f-2f5cc867c445",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Successful GET request User\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.code).to.be.ok;",
+							"    ",
+							"    var users  = res.json();",
+							"    pm.expect(Array.isArray(users)).to.eql(true);",
+							"    pm.expect(users[0]).to.eql({",
+							"        id: 1,",
+							"        firstName: \"Keerati\",",
+							"        lastName: \"Jearjindarat\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e7846daf-19ca-4adf-b9bd-3ca1bff136e1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Successful GET request Post\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.code).to.be.ok;",
+							"    ",
+							"    var posts  = res.json();",
+							"    pm.expect(Array.isArray(posts)).to.eql(true);",
+							"    var [ post ] = posts",
+							"    delete post.createdAt",
+							"    pm.expect(post).to.eql({",
+							"        id: 1,",
+							"        title: \"Helloworld\",",
+							"        description: \"WOW\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "553fc5fd-4903-4bd4-8da3-3d72e753a5af",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Successful GET request Post\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.code).to.be.ok;",
+							"    ",
+							"    var comments  = res.json();",
+							"    pm.expect(Array.isArray(comments)).to.eql(true);",
+							"    var [ comment ] = comments",
+							"    delete post.createdAt",
+							"    pm.expect(post).to.eql({",
+							"        id: 1,",
+							"        title: \"Helloworld\",",
+							"        description: \"WOW\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Comment by Post Id and Comment Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Post by Post Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28da17a9-da9d-496f-b2bc-c94c5ef69154",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Update Post\", function () {",
+							"    var response = pm.response;",
+							"    var post = response.json()",
+							"    delete post.id",
+							"    delete post.createdAt",
+							"    pm.expect(post).to.eql({",
+							"        title: \"Helloworld Edited\",",
+							"        description: \"WOW Edited\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Helloworld Edited\",\n\t\"description\": \"WOW Edited\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/posts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Comment by Post Id and Comment Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d7857d1-84ea-4054-9900-5cca5437eb41",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Update Comment\", function () {",
+							"    var response = pm.response;",
+							"    var post = response.json()",
+							"    delete post.id",
+							"    delete post.createdAt",
+							"    pm.expect(post).to.eql({",
+							"        comment: \"Hi Edited\"",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\": \"Hi Edited\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/posts/1/comments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"1",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post by Post Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37f3f8ba-c58a-4b0e-a405-591a75de9470",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Delete Post by Post ID\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.code).to.be.ok;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/posts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Comment by Post Id and Comment Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d966c060-1a8c-4b0e-9973-094b8d3893eb",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test Delete Comment by Post ID and Comment ID\", function () {",
+							"    var res = pm.response;",
+							"    pm.expect(res.code).to.be.ok;",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/posts/1/comments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"posts",
+						"1",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
