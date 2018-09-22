@@ -13,8 +13,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserAdapter userAdapter;
+
     public List<User> getAllUser() {
-        return this.userRepository.findAll();
+        return this.userAdapter.getAllUser();
     }
 
     public Optional<User> findById(long userId) {
@@ -24,4 +27,10 @@ public class UserService {
     public User save(User user) {
         return this.userRepository.save(user);
     }
+
+
+    public User getUserDetail(long userId) {
+        return this.userAdapter.getUserDetail(userId);
+    }
+
 }
