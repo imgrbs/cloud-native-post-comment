@@ -31,8 +31,8 @@ public class UserController {
             value = "/user/{id:[\\d]}",
             method = RequestMethod.GET
     )
-    public Optional<User> getUser(@PathVariable("id") long userId) {
-        return this.userService.findById(userId);
+    public User getUser(@PathVariable("id") Long userId) {
+        return this.userService.getUserDetail(userId);
     }
 
     @PostMapping("/users")
