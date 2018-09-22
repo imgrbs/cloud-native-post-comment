@@ -1,10 +1,14 @@
 package th.ac.kmutt.sit.UserService;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import th.ac.kmutt.sit.CommentService.Comment;
+import th.ac.kmutt.sit.PostService.Post;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -47,4 +51,5 @@ public class User implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 }
