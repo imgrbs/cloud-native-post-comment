@@ -16,8 +16,13 @@ public class UserService {
     @Autowired
     private UserAdapter userAdapter;
 
-    public List<User> getAllUser() {
+    public List<User> getAllUserByAdapter() {
         return this.userAdapter.getAllUser();
+    }
+
+
+    public List<User> getAllUser() {
+        return this.userRepository.findAll();
     }
 
     public Optional<User> findById(long userId) {
