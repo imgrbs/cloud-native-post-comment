@@ -34,6 +34,16 @@ public class CommentController {
         return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
     }
 
+
+    @RequestMapping(
+            value = "/comment/{id:[\\d]}",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<Optional<Comment>> getComment(@PathVariable("id") long commentId) {
+        Optional<Comment> comment = this.commentService.findById(commentId);
+        return new ResponseEntity<Optional<Comment>>(comment, HttpStatus.OK);
+    }
+
     @PostMapping("/posts/{postId}/comments")
     public Comment createComment(@PathVariable (value = "postId") long postId, @Valid @RequestBody Comment comment) {
         Optional<User> user = this.userService.findById(1);
