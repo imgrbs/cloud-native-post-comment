@@ -5,7 +5,7 @@
 
 	<groupId>th.ac.kmutt.sit</groupId>
 	<artifactId>UserService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-1</version>
 	<packaging>jar</packaging>
 
 	<name>UserService</name>
