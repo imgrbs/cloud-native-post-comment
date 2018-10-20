@@ -9,6 +9,7 @@ import th.ac.kmutt.sit.UserService.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PostController {
@@ -26,6 +27,16 @@ public class PostController {
     public ResponseEntity<List<Post>> getPosts() {
         List<Post> posts = this.postService.getAllPost();
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/post/{id:[\\d]}",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<Optional<Post> > getPost(@PathVariable("id") long postId) {
+        Optional<Post> post = this.postService.findById(postId);
+        return new ResponseEntity<Optional<Post> >(post, HttpStatus.OK);
     }
 
 
